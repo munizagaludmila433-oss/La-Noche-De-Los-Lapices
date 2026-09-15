@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Noche de los Lápices — Memoria y derechos</title>
+<style>
+:root{--violeta:#5b3a78;--azul:#202d50;--crema:#f5eddb;--tinta:#272333;--acento:#b69bd0}
+*{box-sizing:border-box}body{margin:0;background:#171a29;color:var(--tinta);font-family:Georgia,serif;overflow-x:hidden}
+.book{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.page{width:min(900px,100%);min-height:600px;background:var(--crema);border-radius:18px;box-shadow:0 20px 60px #0008;padding:clamp(28px,6vw,70px);position:relative;overflow:hidden;animation:open .7s ease}
+@keyframes open{from{opacity:0;transform:rotateY(-10deg) scale(.97)}to{opacity:1;transform:none}}
+.page:before{content:"";position:absolute;inset:14px;border:1px solid #5b3a7840;border-radius:12px;pointer-events:none}
+h1{font-size:clamp(42px,8vw,76px);line-height:.95;color:var(--azul);margin:0 0 18px}
+h2{font-size:clamp(30px,5vw,48px);color:var(--violeta);margin-top:0}
+h3{color:var(--azul)}p,li{font-size:20px;line-height:1.55}.kicker{letter-spacing:3px;text-transform:uppercase;color:var(--violeta);font-weight:bold}
+.date{font-size:24px;color:var(--violeta);font-weight:bold}
+.pencil{font-size:76px;filter:drop-shadow(5px 6px 0 #b69bd055);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px) rotate(-3deg)}}
+.controls{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+button{border:0;border-radius:999px;padding:12px 20px;background:var(--violeta);color:white;font-weight:bold;cursor:pointer;box-shadow:0 6px 20px #0004}
+button:hover{transform:translateY(-2px)}.counter{position:absolute;right:28px;bottom:22px;color:#665a70}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}.card{background:#fff8;border:1px solid #5b3a7825;padding:18px;border-radius:14px}
+.quote{border-left:5px solid var(--violeta);padding:12px 20px;font-style:italic;font-size:24px}
+.small{font-size:15px;color:#625b68}
+</style>
+</head>
+<body>
+<main class="book"><section class="page" id="page"></section></main>
+<nav class="controls"><button onclick="prev()">← Anterior</button><button onclick="next()">Siguiente →</button></nav>
+<script>
+const pages=[
+`<div class="kicker">Folleto digital • Memoria histórica</div><div class="pencil">✏️</div><h1>La Noche de los Lápices</h1><div class="date">16 de septiembre de 1976</div><p>Un recorrido para conocer, recordar y reflexionar sobre uno de los hechos más recordados de la última dictadura militar argentina.</p><p class="small">Deslizá con los botones para pasar las páginas.</p>`,
+`<div class="kicker">Página 1</div><h2>¿Qué fue?</h2><p>“La Noche de los Lápices” es el nombre con el que se conoce al operativo ocurrido en septiembre de 1976, durante la última dictadura militar argentina, en el que fueron secuestrados estudiantes secundarios de la ciudad de La Plata.</p><p>Los estudiantes habían participado, entre otras actividades, en reclamos vinculados con el boleto estudiantil.</p><div class="quote">La historia también se construye recordando las voces de los jóvenes.</div>`,
+`<div class="kicker">Página 2</div><h2>El contexto histórico</h2><p>El 24 de marzo de 1976 comenzó una dictadura militar que tomó el poder mediante un golpe de Estado. Durante ese período se produjeron graves violaciones a los derechos humanos, incluyendo persecución, secuestros y desapariciones.</p><div class="grid"><div class="card"><h3>1976</h3><p>Comienza la última dictadura militar.</p></div><div class="card"><h3>La Plata</h3><p>Varios estudiantes secundarios fueron perseguidos y secuestrados.</p></div><div class="card"><h3>Memoria</h3><p>El caso quedó como símbolo de la represión contra jóvenes.</p></div></div>`,
+`<div class="kicker">Página 3</div><h2>Los estudiantes</h2><p>Entre los jóvenes secuestrados estuvieron <b>Claudia Falcone, María Clara Ciocchini, Francisco López Muntaner, Horacio Ungaro, Daniel Racero y Claudio de Acha</b>. También fue secuestrada Patricia Miranda, quien sobrevivió.</p><p>Emilce Moler y Pablo Díaz fueron otros estudiantes vinculados al grupo y sobrevivieron a su secuestro.</p><p class="small">Los nombres se incluyen para mantener viva la memoria de las personas afectadas.</p>`,
+`<div class="kicker">Página 4</div><h2>¿Qué ocurrió?</h2><p>Durante la madrugada del 16 de septiembre de 1976 y en días posteriores, grupos de la dictadura secuestraron a estudiantes en La Plata y zonas cercanas. Muchos permanecieron detenidos ilegalmente y varios continúan desaparecidos.</p><p>El caso fue denunciado y posteriormente investigado. Con el regreso de la democracia, se convirtió en un símbolo de la represión política y estudiantil.</p>`,
+`<div class="kicker">Página 5</div><h2>Memoria y derechos</h2><p>Recordar la Noche de los Lápices permite reflexionar sobre la importancia de la democracia, la participación estudiantil y el respeto por los derechos humanos.</p><div class="quote">“Nunca más” no es solamente una frase: es un compromiso con la memoria, la verdad y la justicia.</div><p>En Argentina, el 16 de septiembre se conmemora el <b>Día Nacional de la Juventud</b>, en recuerdo de los estudiantes víctimas de aquel operativo.</p>`,
+`<div class="kicker">Página final</div><div class="pencil">✏️📚</div><h2>Para recordar</h2><p>La memoria mantiene presentes las historias de quienes fueron víctimas de la dictadura y ayuda a valorar los derechos que tenemos en democracia.</p><h1 style="font-size:44px">Memoria, verdad y justicia.</h1><p class="small">Material educativo. Para profundizar, consultar fuentes históricas y organismos de derechos humanos.</p>`
+];
+let i=0; const el=document.getElementById('page');
+function render(){el.style.animation='none';void el.offsetWidth;el.style.animation='open .7s ease';el.innerHTML=pages[i]+`<div class="counter">${i+1} / ${pages.length}</div>`}
+function next(){if(i<pages.length-1){i++;render()}} function prev(){if(i>0){i--;render()}}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev()});render();
+</script>
+</body></html>
